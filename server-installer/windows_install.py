@@ -1,14 +1,20 @@
 # -*- coding: utf-8 -*-
 import os
-import wget
 import abc
+
+try:
+    import wget
+    print('已检测到wget模块           ok')
+except ImportError:
+    print('检测到未安装wget模块,现在开始安装......')
+    os.system('pip install wget')
+    import wget
 
 
 class ServerInstaller(object):
     """Server factory.
 
     """
-
     @abc.abstractmethod
     def install(self):
         """Install new server.
@@ -31,7 +37,6 @@ class Vanilla(ServerInstaller):
     """Vanilla factory.
 
     """
-
     def install(self):
         wget.download(url='https://launcher.mojang.com/v1/objects/1b557e7b033b583cd9f66746b7a9ab1ec1673ced/server.jar',
                       out='server.jar')
@@ -49,7 +54,6 @@ class Fabric(ServerInstaller):
     """Fabric factory.
 
     """
-
     def install(self):
         wget.download(url='https://maven.fabricmc.net/net/fabricmc/fabric-installer/0.7.3/fabric-installer-0.7.3.jar',
                       out='fabric-installer-0.7.3.jar')
@@ -65,10 +69,9 @@ class Fabric(ServerInstaller):
 
 
 class MCDR(ServerInstaller):
-    """MCDR factory.
+    """MCDR factory
 
     """
-
     def install(self):
         os.system('pip install mcdreforged')
         os.system('python -m mcdreforged')
@@ -103,9 +106,29 @@ def replace_file_line(file, old_line, new_line):
         f.write(file_data)
 
 
-def menu():
-    pass  # TODO select menu
+def main():
+    # 随便写的主菜单，可以自行使用接口修改
+    def select_server_type():
+        choice = str(input('==== 服务器类型 ====\n'
+                           '1. 原版\n'
+                           '2. Fabric\n'
+                           '请输入您的选择 (1/2)') or '1')
+        if choice == '1':
+            Vanilla().install()
+        elif choice == '2':
+            Fabric().install()
+
+    def select_server_attachment():
+        choice = str(input('是否选择安装 MCDR (y/N)') or 'n')
+        if choice.lower() == 'n':
+            select_server_type()
+        elif choice.lower() == 'y':
+            MCDR().install()
+            os.chdir('./server/')
+            select_server_type()
+
+    select_server_attachment()
 
 
 if __name__ == '__main__':
-    menu()
+    main()
