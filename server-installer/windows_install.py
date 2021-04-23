@@ -47,7 +47,7 @@ class Vanilla(ServerInstaller):
             f.write('java -Xms1024M -Xmx2048M -jar server.jar nogui')
 
     def check(self):
-        return os.path.exists('server.jar')
+        return os.path.exists('vanilla_start.bat')
 
 
 class Fabric(ServerInstaller):
@@ -65,7 +65,7 @@ class Fabric(ServerInstaller):
             f.write('java -Xms1024M -Xmx2048M -jar fabric-server-launch.jar nogui')
 
     def check(self):
-        return os.path.exists('fabric-server-launch.jar')
+        return os.path.exists('fabric_start.bat')
 
 
 class MCDR(ServerInstaller):
@@ -107,27 +107,31 @@ def replace_file_line(file, old_line, new_line):
 
 
 def main():
-    # 随便写的主菜单，可以自行使用接口修改
-    def select_server_type():
-        choice = str(input('==== 服务器类型 ====\n'
-                           '1. 原版\n'
-                           '2. Fabric\n'
-                           '请输入您的选择 (1/2)') or '1')
-        if choice == '1':
-            Vanilla().install()
-        elif choice == '2':
-            Fabric().install()
-
-    def select_server_attachment():
-        choice = str(input('是否选择安装 MCDR (y/N)') or 'n')
-        if choice.lower() == 'n':
-            select_server_type()
-        elif choice.lower() == 'y':
+    # 不会写主菜单，可自行使用接口修改
+    def select_server_type(mcdr=False):
+        if mcdr:
             MCDR().install()
             os.chdir('./server/')
-            select_server_type()
 
-    select_server_attachment()
+        while 1:  # 能用就行（逃
+            choice = str(input('==== 服务器类型 ====\n'
+                               '1. 原版\n'
+                               '2. Fabric\n'
+                               '请输入您的选择 (1/2)') or '1')
+            if choice == '1':
+                Vanilla().install()
+            elif choice == '2':
+                Fabric().install()
+            else:
+                print('输入有误')
+                continue
+            break
+
+    def select_server_attachment_mcdr():
+        choice = str(input('是否选择安装 MCDR (y/N)'))
+        return choice == 'y'
+
+    select_server_type(select_server_attachment_mcdr())
 
 
 if __name__ == '__main__':
