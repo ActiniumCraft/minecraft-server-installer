@@ -42,7 +42,7 @@ class Vanilla(ServerInstaller):
         os.system('chmod a+x vanilla_start.sh')
 
     def check(self):
-        return os.path.exists('server.jar')
+        return os.path.exists('vanilla_start.sh')
 
 
 class Fabric(ServerInstaller):
@@ -62,7 +62,7 @@ class Fabric(ServerInstaller):
         os.system('chmod a+x fabric_start.sh')
 
     def check(self):
-        return os.path.exists('fabric-server-launch.jar')
+        return os.path.exists('fabric_start.sh')
 
 
 class MCDR(ServerInstaller):
