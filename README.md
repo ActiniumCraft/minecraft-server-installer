@@ -8,17 +8,21 @@
 
 ### 安装方法
 
-Windows 系统
+**Windows 系统**
 
 ```bash
-wget https://raw.githubusercontent.com/ActiniumCraft/mc-server-utils/develop/windows_install.py
+wget https://github.com/ActiniumCraft/mc-server-utils/raw/develop/server-installer/windows_install.py
 ```
 
 或在 GitHub 上直接下载源码，完成后双击运行即可
 
-Ubuntu 系统
+**Ubuntu & Centos 系统**
 
-Centos 系统
+```sh
+wget https://github.com/ActiniumCraft/mc-server-utils/raw/develop/server-installer/ubuntu_install.py
+```
+
+之后输入 `python3 ubuntu_install.py` 运行即可
 
 ### 接口使用
 
