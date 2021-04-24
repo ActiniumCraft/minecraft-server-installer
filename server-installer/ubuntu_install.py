@@ -105,9 +105,29 @@ def replace_file_line(file, old_line, new_line):
         f.write(file_data)
 
 
-def main():
-    pass  # TODO select menu
-
-
 if __name__ == '__main__':
-    main()
+    # 不会写主菜单，可自行使用接口修改
+    def select_server_type(mcdr=False):
+        if mcdr:
+            MCDR().install()
+            os.chdir('./server/')
+
+        while 1:  # 能用就行（逃
+            choice = str(input('==== 服务器类型 ====\n'
+                               '1. 原版\n'
+                               '2. Fabric\n'
+                               '请输入您的选择 (1/2)') or '1')
+            if choice == '1':
+                Vanilla().install()
+            elif choice == '2':
+                Fabric().install()
+            else:
+                print('输入有误')
+                continue
+            break
+
+    def select_server_attachment_mcdr():
+        choice = str(input('是否选择安装 MCDR (y/N)'))
+        return choice == 'y'
+
+    select_server_type(select_server_attachment_mcdr())

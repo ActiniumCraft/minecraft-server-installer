@@ -4,6 +4,7 @@ import abc
 
 try:
     import wget
+
     print('已检测到wget模块           ok')
 except ImportError:
     print('检测到未安装wget模块,现在开始安装......')
@@ -15,6 +16,7 @@ class ServerInstaller(object):
     """Server factory.
 
     """
+
     @abc.abstractmethod
     def install(self):
         """Install new server.
@@ -37,6 +39,7 @@ class Vanilla(ServerInstaller):
     """Vanilla factory.
 
     """
+
     def install(self):
         wget.download(url='https://launcher.mojang.com/v1/objects/1b557e7b033b583cd9f66746b7a9ab1ec1673ced/server.jar',
                       out='server.jar')
@@ -54,6 +57,7 @@ class Fabric(ServerInstaller):
     """Fabric factory.
 
     """
+
     def install(self):
         wget.download(url='https://maven.fabricmc.net/net/fabricmc/fabric-installer/0.7.3/fabric-installer-0.7.3.jar',
                       out='fabric-installer-0.7.3.jar')
@@ -72,6 +76,7 @@ class MCDR(ServerInstaller):
     """MCDR factory
 
     """
+
     def install(self):
         os.system('pip install mcdreforged')
         os.system('python -m mcdreforged')
@@ -106,7 +111,7 @@ def replace_file_line(file, old_line, new_line):
         f.write(file_data)
 
 
-def main():
+if __name__ == '__main__':
     # 不会写主菜单，可自行使用接口修改
     def select_server_type(mcdr=False):
         if mcdr:
@@ -132,7 +137,3 @@ def main():
         return choice == 'y'
 
     select_server_type(select_server_attachment_mcdr())
-
-
-if __name__ == '__main__':
-    main()
