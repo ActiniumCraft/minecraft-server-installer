@@ -1,0 +1,1 @@
+如果您有兴趣为这个项目做贡献，那么这将会是最好的起点。 另外，请注意，该项目是开源的，并根据 [GNU General Public License v3.0](https://github.com/ActiniumCraft/mc-server-utils/blob/main/LICENSE) 获得许可。
