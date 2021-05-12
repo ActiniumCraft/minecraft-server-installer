@@ -1,16 +1,18 @@
 # -*- coding: utf-8 -*-
 import os
 import abc
-import requests
 
 try:
     import wget
-
-    print('已检测到wget模块           ok')
+    print('已检测到 wget 模块           ok')
+    import requests
+    print('已检测到 requests 模块           ok')
 except ImportError:
-    print('检测到未安装wget模块,现在开始安装......')
+    print('检测到未依赖库缺失,现在开始安装......')
     os.system('pip install wget')
+    os.system('pip install requests')
     import wget
+    import requests
 
 
 class ServerInstaller(object):
@@ -132,8 +134,10 @@ def replace_file_line(file, old_line, new_line):
 
 if __name__ == '__main__':
     os.system('python -m pip install --upgrade pip')
+
     print('是否选择安装 MCDR [y/N]')
     select_mcdr = str(input('输入: ') or 'n').lower()
+
     if select_mcdr not in {'y', 'yes', 'n', 'no'}:
         raise Exception('请选择 y 或 n')
     if select_mcdr in {'y', 'yes'}:
@@ -142,11 +146,14 @@ if __name__ == '__main__':
 
     print('选择服务器内核 [*Vanilla, Fabric]')
     select_core = str(input('输入:  ') or 'vanilla').lower()
+
     print('请选择服务器版本 [*Latest/自定义版本号]')
     select_version = str(input('输入: ') or 'latest').lower()
+
     if select_core in {'vanilla', 'v'}:
         Vanilla().install(version=select_version)
     elif select_core in {'fabric', 'f'}:
         Fabric().install(version=select_version)
     else:
         raise Exception('错误的内核')
+
