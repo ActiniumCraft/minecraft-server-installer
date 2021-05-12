@@ -74,10 +74,13 @@ class Fabric(ServerInstaller):
 
     """
 
-    def install(self):
+    def install(self, version='latest'):
         wget.download(url='https://maven.fabricmc.net/net/fabricmc/fabric-installer/0.7.3/fabric-installer-0.7.3.jar',
                       out='fabric-installer-0.7.3.jar')
-        os.system('java -jar fabric-installer-0.7.3.jar server -downloadMinecraft')
+        if version == 'latest':
+            os.system('java -jar fabric-installer-0.7.3.jar server -downloadMinecraft')
+        else:
+            os.system('java -jar fabric-installer-0.7.3.jar server -downloadMinecraft -mcversion {}'.format(version))
         os.system('java -Xms1024M -Xmx2048M -jar fabric-server-launch.jar nogui')
         replace_file_line('eula.txt', 'eula=false', 'eula=true')
 
@@ -128,6 +131,7 @@ def replace_file_line(file, old_line, new_line):
 
 
 if __name__ == '__main__':
+
     os.system('python -m pip install --upgrade pip')
     print('是否选择安装 MCDR [y/N]')
     select_mcdr = str(input('输入: ') or 'n').lower()
@@ -139,11 +143,11 @@ if __name__ == '__main__':
 
     print('选择服务器内核 [*Vanilla, Fabric]')
     select_core = str(input('输入:  ') or 'vanilla').lower()
+    print('请选择服务器版本 [*Latest/自定义版本号]')
+    select_version = str(input('输入: ') or 'latest').lower()
     if select_core in {'vanilla', 'v'}:
-        print('请选择服务器版本 [*Latest/自定义版本号]')
-        select_version = str(input('输入: ') or 'latest').lower()
         Vanilla().install(version=select_version)
     elif select_core in {'fabric', 'f'}:
-        Fabric().install()
+        Fabric().install(version=select_version)
     else:
         raise Exception('错误的内核')
