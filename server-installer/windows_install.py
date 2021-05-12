@@ -131,7 +131,6 @@ def replace_file_line(file, old_line, new_line):
 
 
 if __name__ == '__main__':
-
     os.system('python -m pip install --upgrade pip')
     print('是否选择安装 MCDR [y/N]')
     select_mcdr = str(input('输入: ') or 'n').lower()
