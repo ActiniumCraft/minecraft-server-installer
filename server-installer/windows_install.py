@@ -8,7 +8,7 @@ try:
     import requests
     print('已检测到 requests 模块           ok')
 except ImportError:
-    print('检测到未依赖库缺失,现在开始安装......')
+    print('检测到依赖库缺失,现在开始安装......')
     os.system('pip install wget')
     os.system('pip install requests')
     import wget
@@ -156,4 +156,3 @@ if __name__ == '__main__':
         Fabric().install(version=select_version)
     else:
         raise Exception('错误的内核')
-
