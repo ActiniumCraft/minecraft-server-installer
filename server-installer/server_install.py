@@ -16,7 +16,7 @@ except ImportError:
     import requests
 
 platform = platform.system()
-print('检测 python 运行环境            ok')
+print('已检测到 python 运行环境            ok')
 # Windows 需要使用 python，linux 则需要使用 python3 区分 python2
 python_command = 'python' if platform == 'Windows' else 'python3'
 pip_command = 'pip' if platform == 'Windows' else 'pip3'
@@ -143,6 +143,7 @@ if __name__ == '__main__':
     if select_mcdr not in {'y', 'yes', 'n', 'no'}:
         raise Exception('请选择 y 或 n')
     if select_mcdr in {'y', 'yes'}:
+        print('安装正在进行中，请稍等。。。')
         MCDR().install()
         os.chdir('./server/')
 
@@ -153,8 +154,10 @@ if __name__ == '__main__':
     select_version = str(input('输入: ') or 'latest').lower()
 
     if select_core in {'vanilla', 'v'}:
+        print('安装正在进行中，请稍等。。。')
         Vanilla().install(version=select_version)
     elif select_core in {'fabric', 'f'}:
+        print('安装正在进行中，请稍等。。。')
         Fabric().install(version=select_version)
     else:
         raise Exception('错误的内核')
