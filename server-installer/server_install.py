@@ -35,14 +35,6 @@ class ServerInstaller(object):
         """
         pass
 
-    def check(self):
-        """Check server install status.
-
-        Returns: The return value. Boolean, True or False.
-
-        """
-        pass
-
 
 class Vanilla(ServerInstaller):
     """Vanilla factory.
