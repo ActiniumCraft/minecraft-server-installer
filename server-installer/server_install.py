@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 import os
 import abc
+import platform
 
 try:
     import wget
-    print('已检测到 wget 模块           ok')
+    print('已检测到 wget 模块            ok')
     import requests
-    print('已检测到 requests 模块           ok')
+    print('已检测到 requests 模块            ok')
 except ImportError:
     print('检测到依赖库缺失,现在开始安装......')
     os.system('pip install wget')
@@ -14,12 +15,17 @@ except ImportError:
     import wget
     import requests
 
+platform = platform.system()
+print('检测 python 运行环境            ok')
+# Windows 需要使用 python，linux 则需要使用 python3 区分 python2
+python_command = 'python' if platform == 'Windows' else 'python3'
+pip_command = 'pip' if platform == 'Windows' else 'pip3'
+
 
 class ServerInstaller(object):
     """Server factory.
 
     """
-
     @abc.abstractmethod
     def install(self):
         """Install new server.
@@ -67,15 +73,14 @@ class Vanilla(ServerInstaller):
         with open('vanilla_start.bat', 'w', encoding='utf-8') as f:
             f.write('java -Xms1024M -Xmx2048M -jar server.jar nogui')
 
-    def check(self):
-        return os.path.exists('vanilla_start.bat')
+        with open('vanilla_start.sh', 'w', encoding='utf-8') as f:
+            f.write('java -Xms1024M -Xmx2048M -jar server.jar nogui')
 
 
 class Fabric(ServerInstaller):
     """Fabric factory.
 
     """
-
     def install(self, version='latest'):
         wget.download(url='https://maven.fabricmc.net/net/fabricmc/fabric-installer/0.7.3/fabric-installer-0.7.3.jar',
                       out='fabric-installer-0.7.3.jar')
@@ -89,8 +94,8 @@ class Fabric(ServerInstaller):
         with open('fabric_start.bat', 'w', encoding='utf-8') as f:
             f.write('java -Xms1024M -Xmx2048M -jar fabric-server-launch.jar nogui')
 
-    def check(self):
-        return os.path.exists('fabric_start.bat')
+        with open('fabric_start.sh', 'w', encoding='utf-8') as f:
+            f.write('java -Xms1024M -Xmx2048M -jar fabric-server-launch.jar nogui')
 
 
 class MCDR(ServerInstaller):
@@ -99,14 +104,11 @@ class MCDR(ServerInstaller):
     """
 
     def install(self):
-        os.system('pip install mcdreforged')
-        os.system('python -m mcdreforged')
+        os.system('{} install mcdreforged'.format(pip_command))
+        os.system('{} -m mcdreforged'.format(python_command))
 
         with open('MCDR_start.bat', 'w', encoding='utf-8') as f:
-            f.write('python -m mcdreforged')
-
-    def check(self):
-        return os.path.exists('MCDR_start.bat')
+            f.write('{} -m mcdreforged'.format(python_command))
 
 
 def replace_file_line(file, old_line, new_line):
@@ -122,18 +124,18 @@ def replace_file_line(file, old_line, new_line):
     """
     file_data = ''
 
-    with open(file, 'r', encoding='utf-8') as f:  # 读取文件并获得替换文本
+    with open(file, 'r', encoding='utf-8') as f:
         for line in f:
             if old_line in line:
                 line = line.replace(old_line, new_line)
             file_data = file_data + line
 
-    with open(file, 'w', encoding='utf-8') as f:  # 写入替换文本至文件
+    with open(file, 'w', encoding='utf-8') as f:
         f.write(file_data)
 
 
 if __name__ == '__main__':
-    os.system('python -m pip install --upgrade pip')
+    os.system('{} -m {} install --upgrade {}'.format(python_command, pip_command, pip_command))
 
     print('是否选择安装 MCDR [y/N]')
     select_mcdr = str(input('输入: ') or 'n').lower()
