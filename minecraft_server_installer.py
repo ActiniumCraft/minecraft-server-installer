@@ -1,36 +1,23 @@
-# -*- coding: utf-8 -*-
-import os
 import abc
+import os
 import platform
 
-try:
-    import wget
-    print('已检测到 wget 模块            ok')
-    import requests
-    print('已检测到 requests 模块            ok')
-except ImportError:
-    print('检测到依赖库缺失,现在开始安装......')
-    os.system('pip install wget')
-    os.system('pip install requests')
-    import wget
-    import requests
+import requests
+import wget
 
-platform = platform.system()
-print('已检测到 python 运行环境            ok')
-# Windows 需要使用 python，linux 则需要使用 python3 区分 python2
-python_command = 'python' if platform == 'Windows' else 'python3'
-pip_command = 'pip' if platform == 'Windows' else 'pip3'
+PLATFORM = platform.system()
+PYTHON_COMMAND = 'python' if PLATFORM == 'Windows' else 'python3'
+PIP_COMMAND = 'pip' if PLATFORM == 'Windows' else 'pip3'
 
 
 class ServerInstaller(object):
     """Server factory.
 
     """
+
     @abc.abstractmethod
     def install(self):
         """Install new server.
-
-        Returns: None.
 
         """
         pass
@@ -40,6 +27,7 @@ class Vanilla(ServerInstaller):
     """Vanilla factory.
 
     """
+
     def __init__(self):
         self.version_manifest = {}
         self.version_json = {}
@@ -73,6 +61,7 @@ class Fabric(ServerInstaller):
     """Fabric factory.
 
     """
+
     def install(self, version='latest'):
         wget.download(url='https://maven.fabricmc.net/net/fabricmc/fabric-installer/0.7.3/fabric-installer-0.7.3.jar',
                       out='fabric-installer-0.7.3.jar')
@@ -96,11 +85,11 @@ class MCDR(ServerInstaller):
     """
 
     def install(self):
-        os.system('{} install mcdreforged'.format(pip_command))
-        os.system('{} -m mcdreforged'.format(python_command))
+        os.system('{} install mcdreforged'.format(PIP_COMMAND))
+        os.system('{} -m mcdreforged'.format(PYTHON_COMMAND))
 
         with open('MCDR_start.bat', 'w', encoding='utf-8') as f:
-            f.write('{} -m mcdreforged'.format(python_command))
+            f.write('{} -m mcdreforged'.format(PYTHON_COMMAND))
 
 
 def replace_file_line(file, old_line, new_line):
@@ -127,7 +116,7 @@ def replace_file_line(file, old_line, new_line):
 
 
 if __name__ == '__main__':
-    os.system('{} -m {} install --upgrade {}'.format(python_command, pip_command, pip_command))
+    os.system('{} -m {} install --upgrade {}'.format(PYTHON_COMMAND, PIP_COMMAND, PIP_COMMAND))
 
     print('是否选择安装 MCDR [y/N]')
     select_mcdr = str(input('输入: ') or 'n').lower()
