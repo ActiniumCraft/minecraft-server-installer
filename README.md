@@ -1,4 +1,4 @@
-mc-server-util 是一个集合多种服务器管理工具的项目，支持 windows/linux 并提供可被调用的接口。
+minecraft-server-installer 是一个自动化服务端安装工具。
 
 ## 前置需求
 
@@ -8,4 +8,4 @@ mc-server-util 是一个集合多种服务器管理工具的项目，支持 wind
 
 ## 下载方法
 
-访问 Release 页面下载初始化安装脚本。
+访问 [Release](https://github.com/ActiniumCraft/minecraft-server-installer/releases) 页面下载初始化安装脚本。
