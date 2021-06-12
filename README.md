@@ -1,9 +1,11 @@
-mc-server-util 是一个集合多种服务器管理工具的项目，支持 windows/linux 并提供可被调用的接口。
+minecraft-server-installer 是一个自动化服务端安装工具。
 
-## 功能介绍
+## 前置需求
 
-请参考文档：https://actiniumcraft.github.io/mc-server-utils/#/README
+本脚本基于 Python3 开发。
 
-## 参与贡献
+目前暂不支持自动修改配置文件，安装完后需手动按需求修改.
 
-如果您有意参与贡献，可以通过这篇文档开始：https://actiniumcraft.github.io/mc-server-utils/#/contribute
+## 下载方法
+
+访问 [Release](https://github.com/ActiniumCraft/minecraft-server-installer/releases) 页面下载初始化安装脚本。
